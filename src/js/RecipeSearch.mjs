@@ -19,14 +19,18 @@ export function setupSearch() {
 
       data.results.forEach(recipe => {
         const card = document.createElement("div");
+        card.classList.add("card-link");
+        card.style.cursor = "pointer";
+        card.addEventListener("click", () => {
+          window.location.href = `/recipe.html?id=${recipe.id}`;
+        });
         card.innerHTML = `
-          <a href="recipe.html?id=${recipe.id}" class="card-link">
             <img src="${recipe.image}" alt="${recipe.title}" width="100">
             <h3>${recipe.title}</h3>
             <p><strong>Ready in:</strong> ${recipe.readyInMinutes} min</p>
             <p><strong>Servings:</strong> ${recipe.servings}</p>
-          </a>
-        `;
+          `;
+
         container.appendChild(card);
       });
     } catch (error) {
