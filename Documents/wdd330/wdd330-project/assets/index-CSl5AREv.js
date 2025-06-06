@@ -1,8 +1,0 @@
-(function(){const n=document.createElement("link").relList;if(n&&n.supports&&n.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const i of t.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&s(i)}).observe(document,{childList:!0,subtree:!0});function o(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function s(e){if(e.ep)return;e.ep=!0;const t=o(e);fetch(e.href,t)}})();const d="eb84a12974f64951b4d0a630536d7342";function l(){const c=document.getElementById("searchBtn"),n=document.getElementById("searchInput"),o=document.getElementById("resultsContainer");c.addEventListener("click",async()=>{const s=n.value.trim();if(!s)return;const e=`https://api.spoonacular.com/recipes/complexSearch?query=${s}&number=10&addRecipeInformation=true&apiKey=${d}`;try{const i=await(await fetch(e)).json();o.innerHTML="",i.results.forEach(r=>{const a=document.createElement("div");a.innerHTML=`
-          <a href="recipe.html?id=${r.id}" class="card-link">
-            <img src="${r.image}" alt="${r.title}" width="100">
-            <h3>${r.title}</h3>
-            <p><strong>Ready in:</strong> ${r.readyInMinutes} min</p>
-            <p><strong>Servings:</strong> ${r.servings}</p>
-          </a>
-        `,o.appendChild(a)})}catch(t){console.error("API error:",t),o.innerHTML="<p>Something went wrong. Try again later.</p>"}})}document.addEventListener("DOMContentLoaded",()=>{l()});
