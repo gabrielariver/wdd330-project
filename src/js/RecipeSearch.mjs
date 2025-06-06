@@ -21,16 +21,17 @@ export function setupSearch() {
         const card = document.createElement("div");
         card.classList.add("card-link");
         card.style.cursor = "pointer";
-        card.addEventListener("click", () => {
-          window.location.href = `/recipe.html?id=${recipe.id}`;
-        });
-        card.innerHTML = `
-            <img src="${recipe.image}" alt="${recipe.title}" width="100">
-            <h3>${recipe.title}</h3>
-            <p><strong>Ready in:</strong> ${recipe.readyInMinutes} min</p>
-            <p><strong>Servings:</strong> ${recipe.servings}</p>
-          `;
 
+        card.addEventListener("click", () => {
+          window.location.href = `recipe.html?id=${recipe.id}`;
+        });
+
+        card.innerHTML = `
+          <img src="${recipe.image}" alt="${recipe.title}" width="100">
+          <h3>${recipe.title}</h3>
+          <p><strong>Ready in:</strong> ${recipe.readyInMinutes} min</p>
+          <p><strong>Servings:</strong> ${recipe.servings}</p>
+        `;
         container.appendChild(card);
       });
     } catch (error) {
