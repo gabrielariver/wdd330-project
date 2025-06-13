@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.style.cursor = "pointer";
       card.addEventListener("click", () => {
-        window.location.href = `recipe.html?source=${recipe.source}&id=${recipe.id}`;
+        window.location.href = `/recipe.html?source=${recipe.source}&id=${recipe.id}`;
       });
 
       container.appendChild(card);
