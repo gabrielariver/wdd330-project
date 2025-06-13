@@ -12,29 +12,46 @@
   <header>
     <h1>Healthy Recipe Finder</h1>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Meal Planner</a>
+      <a href="index.html">Home</a>
+      <a href="favorites.html">Favorites</a>
       <a href="#">Profile</a>
     </nav>
   </header>
 
-  <main>
-    <section id="search-section">
-      <input type="text" id="searchInput" placeholder="Search for recipes cookies..." />
-      <button id="searchBtn">Search</button>
+  <main class="dashboard-grid">
+
+    <!--  Planner -->
+    <section id="plannerSection">
+      <h2>Weekly Meal Planner</h2>
+      <div id="plannerContainer"></div>
     </section>
 
-    <section id="results-section">
+    <!--  Search -->
+    <section id="searchSection">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for recipes..." />
+        <button id="searchBtn">Search</button>
+      </div>
       <h2>Results</h2>
       <div id="resultsContainer" class="grid"></div>
     </section>
+
+    <!--  Shopping List -->
+    <section id="shoppingSection">
+      <h2>Shopping List</h2>
+      <div id="shoppingContainer"></div>
+      <button id="clearList">Clear List</button>
+    </section>
+
   </main>
 
   <footer>
     <p>&copy; 2025 Healthy Recipe App</p>
   </footer>
 
-  <script type="module" src="./src/js/index.mjs"></script>
+  <script type="module" src="./src/js/Planner.mjs"></script>
+  <script type="module" src="./src/js/ShoppingList.mjs"></script>
+  <script type="module" src="./src/js/RecipeSearch.mjs"></script>
 </body>
 
 </html>
