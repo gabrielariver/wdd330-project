@@ -38,11 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
       image: recipe.image,
       readyInMinutes: recipe.readyInMinutes || 'N/A',
       servings: recipe.servings || 'N/A',
-      source: "Spoonacular"
+      source: "spoonacular"
     }));
   }
 
-  //  meal db active
+  // mealdb active
   async function fetchMealDB(query) {
     const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`;
     const response = await fetch(url);
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       image: meal.strMealThumb,
       readyInMinutes: 'N/A',
       servings: 'N/A',
-      source: "MealDB"
+      source: "mealdb" 
     }));
   }
 
