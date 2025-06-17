@@ -25,6 +25,12 @@ async function fetchSpoonacularRecipe(id) {
 
   try {
     const response = await fetch(url);
+    const contentType = response.headers.get("content-type");
+
+    if (!response.ok || !contentType.includes("application/json")) {
+      throw new Error("The API did not return a valid response");
+    }
+
     const data = await response.json();
 
     container.innerHTML = `
@@ -59,6 +65,12 @@ async function fetchMealDBRecipe(id) {
 
   try {
     const response = await fetch(url);
+    const contentType = response.headers.get("content-type");
+
+    if (!response.ok || !contentType.includes("application/json")) {
+      throw new Error("The API did not return a valid response");
+    }
+
     const data = await response.json();
     const recipe = data.meals[0];
 
