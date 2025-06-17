@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   async function fetchSpoonacular(query, apiKey) {
-    const url = `/spoonacular/recipes/complexSearch?query=${query}&number=10&addRecipeInformation=true&apiKey=${apiKey}`;
+    const url = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&number=10&addRecipeInformation=true&apiKey=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
 
