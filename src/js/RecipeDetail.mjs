@@ -4,10 +4,12 @@ const params = new URLSearchParams(window.location.search);
 const recipeId = params.get('id');
 let source = params.get('source');
 
-//normalized source to see recipe
+// Normalize and validate
 source = source ? source.toLowerCase() : null;
 
-if (!recipeId || !source) {
+if (!container) {
+  console.error("Missing container element #recipeDetail.");
+} else if (!recipeId || !source) {
   container.innerHTML = '<p>Missing recipe ID or source.</p>';
 } else {
   if (source === "spoonacular") {
@@ -19,7 +21,6 @@ if (!recipeId || !source) {
   }
 }
 
-// spoonacular
 async function fetchSpoonacularRecipe(id) {
   const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`;
 
@@ -27,8 +28,8 @@ async function fetchSpoonacularRecipe(id) {
     const response = await fetch(url);
     const contentType = response.headers.get("content-type");
 
-    if (!response.ok || !contentType.includes("application/json")) {
-      throw new Error("The API did not return a valid response");
+    if (!response.ok || !contentType || !contentType.includes("application/json")) {
+      throw new Error("The API did not return valid JSON");
     }
 
     const data = await response.json();
@@ -54,12 +55,11 @@ async function fetchSpoonacularRecipe(id) {
     initButtons(data, 'spoonacular');
 
   } catch (error) {
-    console.error("Error loading recipe details:", error);
+    console.error("Error loading Spoonacular recipe:", error);
     container.innerHTML = "<p>Could not load recipe details. Please try again.</p>";
   }
 }
 
-// mealdb
 async function fetchMealDBRecipe(id) {
   const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 
@@ -67,12 +67,14 @@ async function fetchMealDBRecipe(id) {
     const response = await fetch(url);
     const contentType = response.headers.get("content-type");
 
-    if (!response.ok || !contentType.includes("application/json")) {
-      throw new Error("The API did not return a valid response");
+    if (!response.ok || !contentType || !contentType.includes("application/json")) {
+      throw new Error("The API did not return valid JSON");
     }
 
     const data = await response.json();
-    const recipe = data.meals[0];
+    const recipe = data.meals?.[0];
+
+    if (!recipe) throw new Error("Recipe not found");
 
     container.innerHTML = `
       <h2>${recipe.strMeal}</h2>
@@ -100,29 +102,27 @@ async function fetchMealDBRecipe(id) {
   }
 }
 
-// mealdb 
 function getMealDBIngredients(recipe) {
   const ingredients = [];
   for (let i = 1; i <= 20; i++) {
-    const ingredient = recipe[`strIngredient${i}`];
+    const ing = recipe[`strIngredient${i}`];
     const measure = recipe[`strMeasure${i}`];
-    if (ingredient && ingredient.trim()) {
-      ingredients.push(`${measure} ${ingredient}`.trim());
+    if (ing && ing.trim()) {
+      ingredients.push(`${measure} ${ing}`.trim());
     }
   }
   return ingredients;
 }
 
-// add to favorites and shopping list
 function initButtons(recipe, source) {
-  document.getElementById('addFavorite').addEventListener('click', () => {
+  document.getElementById('addFavorite')?.addEventListener('click', () => {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     favorites.push({ recipe, source });
     localStorage.setItem('favorites', JSON.stringify(favorites));
     alert("Added to Favorites!");
   });
 
-  document.getElementById('addShopping').addEventListener('click', () => {
+  document.getElementById('addShopping')?.addEventListener('click', () => {
     let shopping = JSON.parse(localStorage.getItem('shopping')) || [];
     let ingredients = [];
 
