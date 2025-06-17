@@ -7,18 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   searchBtn.addEventListener('click', async () => {
     const query = input.value.trim();
-    if (!query) return;
+    if (!query || !spoonKey) return;
 
     container.innerHTML = "<p>Loading...</p>";
 
     try {
-      // const spoonResults = await fetchSpoonacular(query, spoonKey);
-
+      const spoonResults = await fetchSpoonacular(query, spoonKey);
       const mealDBResults = await fetchMealDB(query);
 
-      // const combinedResults = [...spoonResults, ...mealDBResults];
-      const combinedResults = [...mealDBResults];
-
+      const combinedResults = [...spoonResults, ...mealDBResults];
       renderResults(combinedResults);
     } catch (error) {
       console.error("API error:", error);
@@ -26,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // spoonacular temporarily disabled
   async function fetchSpoonacular(query, apiKey) {
     const url = `/spoonacular/recipes/complexSearch?query=${query}&number=10&addRecipeInformation=true&apiKey=${apiKey}`;
     const response = await fetch(url);
@@ -38,11 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image: recipe.image,
       readyInMinutes: recipe.readyInMinutes || 'N/A',
       servings: recipe.servings || 'N/A',
-      source: "spoonacular"
+      source: "Spoonacular"
     }));
   }
 
-  // mealdb active
   async function fetchMealDB(query) {
     const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`;
     const response = await fetch(url);
@@ -58,30 +53,32 @@ document.addEventListener("DOMContentLoaded", () => {
       image: meal.strMealThumb,
       readyInMinutes: 'N/A',
       servings: 'N/A',
-      source: "mealdb" 
+      source: "MealDB"
     }));
   }
 
   function renderResults(results) {
-    container.innerHTML = "";
+  container.innerHTML = "";
 
-    results.forEach(recipe => {
-      const card = document.createElement("div");
-      card.classList.add("card-link");
+  results.forEach(recipe => {
+    const card = document.createElement("div");
+    card.classList.add("card-link");
 
-      card.innerHTML = `
-        <img src="${recipe.image}" alt="${recipe.title}" width="100">
-        <h3>${recipe.title}</h3>
-        <p><strong>Servings:</strong> ${recipe.servings}</p>
-        <p><strong>Source:</strong> ${recipe.source}</p>
-      `;
+    card.innerHTML = `
+      <img src="${recipe.image}" alt="${recipe.title}" width="100">
+      <h3>${recipe.title}</h3>
+      <p><strong>Servings:</strong> ${recipe.servings}</p>
+      <p><strong>Source:</strong> ${recipe.source}</p>
+    `;
 
-      card.style.cursor = "pointer";
-      card.addEventListener("click", () => {
-        window.location.href = `/recipe.html?source=${recipe.source}&id=${recipe.id}`;
-      });
-
-      container.appendChild(card);
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      window.location.href = `recipe.html?source=${recipe.source}&id=${recipe.id}`;
     });
-  }
+
+    container.appendChild(card);
+  });
+}
+
+
 });
