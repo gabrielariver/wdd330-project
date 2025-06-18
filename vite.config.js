@@ -8,6 +8,7 @@ export default defineConfig({
         main: 'index.html',
         recipe: 'recipe.html',
         favorites: 'favorites.html',
+        profile: 'profile.html',
       },
     },
   },
