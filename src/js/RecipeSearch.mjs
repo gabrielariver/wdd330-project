@@ -24,10 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   async function fetchSpoonacular(query, apiKey) {
-    const url = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&number=10&addRecipeInformation=true&apiKey=${apiKey}`;
+    const prefs = JSON.parse(localStorage.getItem("userPreferences")) || {};
+    const diet = prefs.diet ? `&diet=${encodeURIComponent(prefs.diet)}` : "";
+    const intolerances = prefs.intolerances ? `&intolerances=${encodeURIComponent(prefs.intolerances)}` : "";
+  
+    const url = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}${diet}${intolerances}&number=10&addRecipeInformation=true&apiKey=${apiKey}`;
+  
     const response = await fetch(url);
     const data = await response.json();
-
+  
     return data.results.map(recipe => ({
       id: recipe.id,
       title: recipe.title,
@@ -37,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       source: "Spoonacular"
     }));
   }
+  
 
   async function fetchMealDB(query) {
     const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`;

@@ -63,13 +63,13 @@ function assignRecipe(day) {
     return;
   }
 
-  const recipeTitles = favorites.map((r, i) => `${i + 1}: ${r.title}`).join("\n");
+  const recipeTitles = favorites.map((r, i) => `${i + 1}: ${r.recipe?.title || "Untitled"}`).join("\n");
   const choice = prompt(`Select recipe for ${day}:\n${recipeTitles}`);
 
   const selectedIndex = parseInt(choice) - 1;
   if (selectedIndex >= 0 && selectedIndex < favorites.length) {
     const planner = JSON.parse(localStorage.getItem("planner")) || {};
-    planner[day] = favorites[selectedIndex];
+    planner[day] = favorites[selectedIndex].recipe;
     localStorage.setItem("planner", JSON.stringify(planner));
     renderPlanner();
   } else {

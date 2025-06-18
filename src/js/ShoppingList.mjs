@@ -1,5 +1,6 @@
 const container = document.getElementById("shoppingContainer");
 const clearBtn = document.getElementById("clearList");
+const exportBtn = document.getElementById("exportPDF")
 
 function loadShoppingList() {
   const shopping = JSON.parse(localStorage.getItem("shopping")) || [];

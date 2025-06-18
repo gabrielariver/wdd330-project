@@ -1,0 +1,57 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="./src/style/styles.css" />
+</head>
+
+<body>
+    <header>
+        <h1>User Profile</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="favorites.html">Favorites</a>
+        </nav>
+    </header>
+
+    <main>
+        <form id="preferencesForm" class="profile-form">
+            <label for="diet">Diet Type:</label>
+            <select id="diet">
+                <option value="">None</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="vegan">Vegan</option>
+                <option value="gluten free">Gluten Free</option>
+                <option value="pescetarian">Pescetarian</option>
+            </select>
+
+            <label for="intolerances">Intolerances (comma separated):</label>
+            <input type="text" id="intolerances" placeholder="e.g. dairy, peanut" />
+            <p id="errorMsg" class="error-text"></p>
+
+            <section class="user-info">
+                <h2>Saved Preferences</h2>
+                <p id="displayDiet">Diet: —</p>
+                <p id="displayIntolerances">Intolerances: —</p>
+                <button id="clearPreferences">Reset Preferences</button>
+            </section>
+            <button type="submit">Save Preferences</button>
+        </form>
+
+        <p id="savedMsg" style="display:none;">Preferences saved!</p>
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Healthy Recipe App</p>
+    </footer>
+
+    <script type="module" src="./src/js/Profile.mjs"></script>
+</body>
+
+</html>
